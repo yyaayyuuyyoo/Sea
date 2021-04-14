@@ -27,6 +27,7 @@
     "rxjs": "^6.5.5",
     "twemoji": "^13.0.1",
     "vue-konva": "^2.1.7",
+    "vue-marquee-text-component": "^1.2.0",
     "vue-rx": "^6.2.0",
     "vuefire": "^2.2.4"
   },

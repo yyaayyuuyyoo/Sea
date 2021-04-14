@@ -1,13 +1,15 @@
 <template>
-  <div class="index">
-    <div>
+  <div class="index relative">
+    <div
+      class="absolute left-0 top-0 w-full h-full flex justify-center items-center"
+    >
       <v-stage
         :config="{
           width,
           height,
         }"
-        @mousemove="onMousemove"
       >
+        <!-- @mousemove="onMousemove" -->
         <!--
         <v-layer
           :config="configTestImg"
@@ -50,6 +52,36 @@
         -->
       </v-stage>
     </div>
+
+    <div class="mt-8">
+      <h2 class="text-3xl font-bold">What did you sea?</h2>
+      <div
+        class="w-full py-2"
+        :style="{ maxWidth: `${width}px` }"
+        @mouseenter="timezonePaused = true"
+        @mouseleave="timezonePaused = false"
+      >
+        <marquee-text :duration="30" :paused="timezonePaused">
+          <div
+            v-for="(offset, city) in timezones"
+            :key="city"
+            class="inline-block mx-2"
+          >
+            <span>
+              {{ city }}
+            </span>
+
+            <span>
+              {{ `${(now.getUTCHours() + offset) % 24}`.padStart(2, '0') }}
+            </span>
+            <span>:</span>
+            <span>
+              {{ `${now.getUTCMinutes()}`.padStart(2, '0') }}
+            </span>
+          </div>
+        </marquee-text>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -60,6 +92,8 @@ import _throttle from 'lodash/throttle'
 import _sortBy from 'lodash/sortBy'
 /* eslint-enable no-unused-vars */
 
+import MarqueeText from 'vue-marquee-text-component'
+
 import VVImage from '@/components/VVImage'
 
 // eslint-disable-next-line no-unused-vars
@@ -68,9 +102,25 @@ import { rtdb, ServerTIMESTAMP, auth } from '@/services/firebase'
 const width = 1000
 const height = 500
 
+const timezones = {
+  Nevada: -8,
+  Chihuahua: -7,
+  Missouri: -6,
+  'West Virginia': -5,
+  'Mato Grosso': -4,
+  'Minas Gerais': -3,
+  'République du Mali': -0,
+  Serbia: +1,
+  Belarus: +2,
+  Tajikistan: +5,
+  Laos: +7,
+  Nantou: +8,
+}
+
 export default {
   components: {
     //
+    MarqueeText,
     VVImage,
   },
 
@@ -79,11 +129,16 @@ export default {
       width,
       height,
 
+      now: new Date(),
+
       configTestImg: {
         x: 40,
         y: 60,
         draggable: true,
       },
+
+      timezones,
+      timezonePaused: false,
 
       dbReady: false,
 
@@ -119,6 +174,8 @@ export default {
     },
   },
   async created() {
+    this.setNow()
+
     this.uId = await this.getUId()
     console.log('uId:', this.uId)
 
@@ -152,6 +209,15 @@ export default {
     this.dbReady = true
   },
   methods: {
+    setNow() {
+      const interval = setInterval(() => {
+        this.now = new Date()
+      }, 10000)
+
+      this.$once('hook:beforeDestroy', () => {
+        clearInterval(interval)
+      })
+    },
     async getUId() {
       await auth.signInAnonymously().catch(err => {
         const { code, message } = err
