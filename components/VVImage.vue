@@ -1,14 +1,23 @@
 <template>
   <v-image
+    v-bind="$attrs"
     :config="{
+      ...config,
       image: image,
     }"
+    @click="$emit('click', $event)"
+    @dragmove="$emit('dragmove', $event)"
+    @dragend="$emit('dragend', $event)"
   />
 </template>
 
 <script>
 export default {
   props: {
+    config: {
+      type: Object,
+      default: () => ({}),
+    },
     src: {
       type: String,
       default: '',

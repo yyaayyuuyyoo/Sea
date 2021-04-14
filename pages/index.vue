@@ -20,20 +20,21 @@
         </v-layer> 
         -->
 
-        <v-layer
-          v-for="sea in seas"
-          :key="`sea${sea.sId}`"
-          :config="{
-            ...sea,
-            scaleX: 0.5,
-            scaleY: 0.5,
-            draggable: true,
-          }"
-          @click="onClick({ sId: sea.sId, evt: $event })"
-          @dragmove="onDragmove({ sId: sea.sId, evt: $event })"
-          @dragend="onDragend({ sId: sea.sId, evt: $event })"
-        >
-          <VVImage :src="require(`~/assets/sea-imgs/${sea.sId}.png`)" />
+        <v-layer>
+          <VVImage
+            v-for="sea in seas"
+            :key="`sea${sea.sId}`"
+            :config="{
+              ...sea,
+              scaleX: 0.5,
+              scaleY: 0.5,
+              draggable: true,
+            }"
+            :src="require(`~/assets/sea-imgs/${sea.sId}.png`)"
+            @click="onClick({ sId: sea.sId, evt: $event })"
+            @dragmove="onDragmove({ sId: sea.sId, evt: $event })"
+            @dragend="onDragend({ sId: sea.sId, evt: $event })"
+          />
         </v-layer>
 
         <!-- 
