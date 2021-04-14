@@ -79,15 +79,6 @@ export default {
       width,
       height,
 
-      configCircle: {
-        x: 100,
-        y: 100,
-        radius: 70,
-        fill: 'red',
-        stroke: 'black',
-        strokeWidth: 4,
-      },
-
       configTestImg: {
         x: 40,
         y: 60,
@@ -307,7 +298,11 @@ export default {
 /* Sample `apply` at-rules with Tailwind CSS */
 
 .index {
-  @apply min-h-screen flex justify-center items-center text-center flex-col;
+  @apply min-h-screen w-screen;
+  @apply flex flex-col justify-start items-center;
+  @apply text-center;
+
+  background: #d8e2e4;
 }
 
 .title {
