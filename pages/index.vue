@@ -18,18 +18,18 @@
         -->
 
         <v-layer
-          v-for="(sea, sId) in dbSeas"
-          :key="sId"
+          v-for="sea in seas"
+          :key="sea.sId"
           :config="{
             ...sea,
             scaleX: 0.3,
             scaleY: 0.3,
             draggable: true,
           }"
-          @dragmove="onDragmove({ sId: sId, evt: $event })"
-          @dragend="onDragend({ sId: sId, evt: $event })"
+          @dragmove="onDragmove({ sId: sea.sId, evt: $event })"
+          @dragend="onDragend({ sId: sea.sId, evt: $event })"
         >
-          <VVImage :src="require(`~/assets/sea-imgs/${sId}.png`)" />
+          <VVImage :src="require(`~/assets/sea-imgs/${sea.sId}.png`)" />
         </v-layer>
       </v-stage>
     </div>
@@ -37,8 +37,11 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 import _range from 'lodash/range'
 import _throttle from 'lodash/throttle'
+import _sortBy from 'lodash/sortBy'
+/* eslint-enable no-unused-vars */
 
 import VVImage from '@/components/VVImage'
 
@@ -85,6 +88,16 @@ export default {
   computed: {
     ready() {
       return !!this.uId && this.dbReady
+    },
+    seas() {
+      if (!this.dbSeas) return []
+
+      const seas = {}
+      Object.entries(this.dbSeas).map(
+        ([sId, sea]) => (seas[sId] = { sId, ...sea })
+      )
+
+      return _sortBy(seas, ['uA'])
     },
   },
   watch: {
@@ -205,6 +218,7 @@ export default {
       //
     },
     onDragmove: _throttle(function({ evt, sId }) {
+      // onDragmove({ evt, sId }) {
       // console.log('onDragmove', evt)
 
       const { x, y } = evt.target.attrs
@@ -218,6 +232,7 @@ export default {
 
       this.updateSea({ sId, sea })
     }, 200),
+    // },
     onDragend({ evt, sId }) {
       console.log('onDragend', evt)
     },
