@@ -1,26 +1,249 @@
 <template>
   <div class="index">
-    <div class="title">
-      <!-- <img class="w-40" src="@/assets/img/logo.svg" alt="" /> -->
-      <h1 class="mt-4">Title</h1>
-    </div>
+    <div>
+      <v-stage
+        :config="{
+          width,
+          height,
+        }"
+      >
+        <!--
+        <v-layer
+          :config="configTestImg"
+          @dragmove="onDragmove"
+          @dragend="onDragend"
+        >
+          <VVImage src="https://konvajs.org/assets/yoda.jpg" />
+        </v-layer> 
+        -->
 
-    <div class="intro">
-      <p class="text-sm">This is the start page</p>
+        <v-layer
+          v-for="(sea, sId) in dbSeas"
+          :key="sId"
+          :config="{
+            ...sea,
+            scaleX: 0.3,
+            scaleY: 0.3,
+            draggable: true,
+          }"
+          @dragmove="onDragmove({ sId: sId, evt: $event })"
+          @dragend="onDragend({ sId: sId, evt: $event })"
+        >
+          <VVImage :src="require(`~/assets/sea-imgs/${sId}.png`)" />
+        </v-layer>
+      </v-stage>
     </div>
-
-    <nuxt-link to="/app">
-      <button class="start animated zoomIn faster">
-        Start
-      </button>
-    </nuxt-link>
   </div>
 </template>
 
 <script>
+import _range from 'lodash/range'
+import _throttle from 'lodash/throttle'
+
+import VVImage from '@/components/VVImage'
+
+// eslint-disable-next-line no-unused-vars
+import { rtdb, ServerTIMESTAMP, auth } from '@/services/firebase'
+
+const width = 1000
+const height = 500
+
 export default {
   components: {
     //
+    VVImage,
+  },
+
+  data() {
+    return {
+      width,
+      height,
+
+      configCircle: {
+        x: 100,
+        y: 100,
+        radius: 70,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 4,
+      },
+
+      configTestImg: {
+        x: 40,
+        y: 60,
+        draggable: true,
+      },
+
+      dbReady: false,
+
+      uId: '',
+
+      dbSeas: {},
+      dbVisitors: {},
+    }
+  },
+  computed: {
+    ready() {
+      return !!this.uId && this.dbReady
+    },
+  },
+  watch: {
+    ready(ready) {
+      if (ready) {
+        console.log('ready', { ready })
+        this.setPresence()
+      } else {
+        //
+      }
+    },
+  },
+  async created() {
+    this.uId = await this.getUId()
+    console.log('uId:', this.uId)
+
+    const dbVisitorsRef = rtdb.ref(`/visitors`)
+    await this.$rtdbBind(
+      'dbVisitors',
+      dbVisitorsRef.orderByChild('ready').equalTo(true)
+    )
+      .then(() => {
+        console.log('dbVisitors ready', 'dbVisitors')
+      })
+      .catch(() => console.warn('dbVisitors error'))
+
+    const dbSeasRef = rtdb.ref(`/seas`)
+    await this.$rtdbBind('dbSeas', dbSeasRef)
+      .then(() => {
+        console.log('dbSeasRef ready', 'dbSeasRef')
+      })
+      .catch(() => console.warn('dbSeasRef error'))
+
+    for (const sId in _range(22)) {
+      let sea = this.dbSeas[sId]
+      if (!sea) sea = {}
+
+      if (!sea.x) sea.x = (width / 2) * Math.random()
+      if (!sea.y) sea.y = (width / 2) * Math.random()
+
+      await this.updateSea({ sId, sea })
+    }
+
+    this.dbReady = true
+  },
+  methods: {
+    async getUId() {
+      await auth.signInAnonymously().catch(err => {
+        const { code, message } = err
+        console.log('signIn error', { code, message, err })
+      })
+
+      const user = await new Promise(resolve => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+          // console.log('auth onAuthStateChanged', user)
+          unsubscribe()
+
+          resolve(user)
+        })
+      })
+
+      const uId = user.uid
+
+      return uId
+    },
+    async setPresence() {
+      if (!this.ready) return console.error('setPresence() not ready')
+
+      console.log('setPresence() setup')
+
+      const dbVisitorsRef = rtdb.ref(`/visitors`)
+      const visitorRef = dbVisitorsRef.child(this.uId)
+
+      const isOnline = { ready: true, uA: ServerTIMESTAMP }
+      await visitorRef.update(isOnline)
+
+      try {
+        const connectedRef = rtdb.ref('.info/connected')
+
+        // ref: https://firebase.google.com/docs/reference/js/firebase.database.Reference#off
+        connectedRef.off('value', this.onConnected)
+        connectedRef.on('value', this.onConnected)
+
+        this.$once('hook:beforeDestroy', () => {
+          console.log('setPresence() beforeDestroy')
+          connectedRef.off('value', this.onConnected)
+        })
+      } catch (err) {
+        console.error('setPresence()', err)
+      }
+    },
+
+    async onConnected(snapshot) {
+      const dbVisitorsRef = rtdb.ref(`/visitors`)
+      const visitorRef = dbVisitorsRef.child(this.uId)
+
+      // NOTE: If we're not currently connected, don't do anything.
+      const connected = snapshot.val()
+      console.log('presence onConnected()', { connected }, navigator.onLine)
+
+      if (connected === false) return this.backToUnReady()
+
+      const isOffline = {
+        ready: false,
+        uA: ServerTIMESTAMP,
+      }
+
+      const clear = {
+        ...isOffline,
+      }
+
+      // ref: https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect
+      await visitorRef.onDisconnect().set(clear)
+
+      return true
+    },
+    backToUnReady() {
+      //
+    },
+    onDragmove: _throttle(function({ evt, sId }) {
+      // console.log('onDragmove', evt)
+
+      const { x, y } = evt.target.attrs
+
+      console.log({ sId, x, y })
+
+      const sea = {
+        x,
+        y,
+      }
+
+      this.updateSea({ sId, sea })
+    }, 200),
+    onDragend({ evt, sId }) {
+      console.log('onDragend', evt)
+    },
+    async updateSea({ sId, sea }) {
+      const dbSeasRef = rtdb.ref(`/seas`)
+      const dbSeaRef = dbSeasRef.child(sId)
+
+      sea.uA = ServerTIMESTAMP
+
+      await dbSeaRef.update(sea)
+    },
+    handleDragstart(e) {
+      // save drag element:
+      this.dragItemId = e.target.id()
+      // move current element to the top:
+      const item = this.list.find(i => i.id === this.dragItemId)
+      const index = this.list.indexOf(item)
+      this.list.splice(index, 1)
+      this.list.push(item)
+
+      // TODO
+    },
+    handleDragend(e) {
+      this.dragItemId = null
+      // TODO
+    },
   },
 }
 </script>
