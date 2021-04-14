@@ -10,7 +10,9 @@
     "dev": "nuxt --config-file localhost/nuxt.config.js",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "gd": "yarn generate && firebase deploy --only hosting",
+    "gdev": "yarn generate && firebase hosting:channel:deploy dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
