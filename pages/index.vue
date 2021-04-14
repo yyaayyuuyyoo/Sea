@@ -414,8 +414,6 @@ export default {
         y,
       }
 
-      console.log(sea)
-
       this.updateSea({ sId, sea })
     }, 500),
     // },
