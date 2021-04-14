@@ -6,6 +6,7 @@
           width,
           height,
         }"
+        @mousemove="onMousemove"
       >
         <!--
         <v-layer
@@ -19,7 +20,7 @@
 
         <v-layer
           v-for="sea in seas"
-          :key="sea.sId"
+          :key="`sea${sea.sId}`"
           :config="{
             ...sea,
             scaleX: 0.3,
@@ -31,6 +32,22 @@
         >
           <VVImage :src="require(`~/assets/sea-imgs/${sea.sId}.png`)" />
         </v-layer>
+
+        <!-- 
+        <v-layer>
+          <v-circle
+            v-for="(visitor, key) in dbVisitors"
+            :key="`visitor-${key}`"
+            :config="{
+              ...visitor,
+              radius: 5,
+              fill: 'white',
+              stroke: 'black',
+              'stroke-width': 2,
+            }"
+          />
+        </v-layer>
+        -->
       </v-stage>
     </div>
   </div>
@@ -217,6 +234,29 @@ export default {
     backToUnReady() {
       //
     },
+    /* 
+    onMousemove: _throttle(async function(evt) {
+      console.log('onMousemove', evt)
+
+      // const { clientX, clientY, layerX, layerY } = evt.evt
+      // console.log({ clientX, clientY, layerX, layerY })
+
+      const pos = {
+        x: evt.evt.layerX,
+        y: evt.evt.layerY,
+      }
+
+      console.log(pos)
+
+      const dbVisitorsRef = rtdb.ref(`/visitors`)
+      const dbVisitorRef = dbVisitorsRef.child(this.uId)
+
+      await dbVisitorRef.update({
+        ...pos,
+        uA: ServerTIMESTAMP,
+      })
+    }, 200),
+    */
     onDragmove: _throttle(function({ evt, sId }) {
       // onDragmove({ evt, sId }) {
       // console.log('onDragmove', evt)
@@ -231,7 +271,7 @@ export default {
       }
 
       this.updateSea({ sId, sea })
-    }, 200),
+    }, 500),
     // },
     onDragend({ evt, sId }) {
       console.log('onDragend', evt)
