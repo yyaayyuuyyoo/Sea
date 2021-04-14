@@ -3,17 +3,19 @@
     <div
       class="absolute left-0 top-0 w-full h-full flex justify-center items-center"
     >
-      <v-stage
-        :config="{
-          width,
-          height,
-        }"
-        :style="{
-          cursor: dragging ? 'grabbing' : 'grab',
-        }"
-      >
-        <!-- @mousemove="onMousemove" -->
-        <!--
+      <div class="relative">
+        <v-stage
+          ref="stage"
+          :config="{
+            width,
+            height,
+          }"
+          :style="{
+            cursor: dragging ? 'grabbing' : 'grab',
+          }"
+        >
+          <!-- @mousemove="onMousemove" -->
+          <!--
         <v-layer
           :config="configTestImg"
           @dragmove="onDragmove"
@@ -23,25 +25,34 @@
         </v-layer> 
         -->
 
-        <v-layer>
-          <VVImage
-            v-for="sea in seas"
-            :key="`sea${sea.sId}`"
-            :config="{
-              ...sea,
-              scaleX: 0.5,
-              scaleY: 0.5,
-              draggable: true,
-            }"
-            :src="require(`~/assets/sea-imgs/${sea.sId}.png`)"
-            @click="onClick({ sId: sea.sId, evt: $event })"
-            @dragstart="onDragstart({ sId: sea.sId, evt: $event })"
-            @dragmove="onDragmove({ sId: sea.sId, evt: $event })"
-            @dragend="onDragend({ sId: sea.sId, evt: $event })"
-          />
-        </v-layer>
+          <v-layer>
+            <v-rect
+              :config="{
+                x: 0,
+                y: 0,
+                width,
+                height,
+                fill: '#d8e2e4',
+              }"
+            />
+            <VVImage
+              v-for="sea in seas"
+              :key="`sea${sea.sId}`"
+              :config="{
+                ...sea,
+                scaleX: 0.5,
+                scaleY: 0.5,
+                draggable: true,
+              }"
+              :src="require(`~/assets/sea-imgs/${sea.sId}.png`)"
+              @click="onClick({ sId: sea.sId, evt: $event })"
+              @dragstart="onDragstart({ sId: sea.sId, evt: $event })"
+              @dragmove="onDragmove({ sId: sea.sId, evt: $event })"
+              @dragend="onDragend({ sId: sea.sId, evt: $event })"
+            />
+          </v-layer>
 
-        <!-- 
+          <!-- 
         <v-layer>
           <v-circle
             v-for="(visitor, key) in dbVisitors"
@@ -56,7 +67,17 @@
           />
         </v-layer>
         -->
-      </v-stage>
+        </v-stage>
+
+        <div class="absolute left-0 bottom-0 w-full h-0 flex justify-center">
+          <div
+            class="mt-6 w-12 h-12 bg-gray-900 cursor-pointer text-white shadow rounded-full flex justify-center items-center"
+            @click="capture"
+          >
+            <fa-icon icon="camera" size="lg" />
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="mt-8">
@@ -367,6 +388,23 @@ export default {
       sea.uA = ServerTIMESTAMP
 
       await dbSeaRef.update(sea)
+    },
+    capture() {
+      // function from https://stackoverflow.com/a/15832662/512042
+      function downloadURI(uri, name) {
+        const link = document.createElement('a')
+        link.download = name
+        link.href = uri
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      }
+
+      const stage = this.$refs.stage.getNode()
+      console.log({ stage })
+
+      const dataURL = stage.toDataURL()
+      downloadURI(dataURL, 'stage.png')
     },
   },
 }
