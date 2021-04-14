@@ -93,3 +93,6 @@ sw.*
 # localhost certificate
 localhost/*.key
 localhost/*.crt
+
+# firebase
+.firebase/**.cache
