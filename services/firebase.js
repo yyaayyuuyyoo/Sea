@@ -13,10 +13,12 @@ import 'firebase/functions'
 const config = {
   apiKey: 'AIzaSyA7roaApigOth3IsEm59oZBQuMCVsdjq3U',
   authDomain: 'sea-you-sea-me.firebaseapp.com',
+  databaseURL: 'https://sea-you-sea-me-default-rtdb.firebaseio.com',
   projectId: 'sea-you-sea-me',
   storageBucket: 'sea-you-sea-me.appspot.com',
   messagingSenderId: '8301580419',
   appId: '1:8301580419:web:e66b0446a70e1202ee8bb6',
+  measurementId: 'G-30SGW0V5GV',
 }
 
 export const FirebaseApp = Firebase.initializeApp(config)
