@@ -40,8 +40,8 @@
               :key="`sea${sea.sId}`"
               :config="{
                 ...sea,
-                scaleX: 0.5,
-                scaleY: 0.5,
+                scaleX: imgScale,
+                scaleY: imgScale,
                 draggable: true,
               }"
               :src="require(`~/assets/sea-imgs/${sea.sId}.png`)"
@@ -168,6 +168,8 @@ const timezones = {
   Nantou: +8,
 }
 
+const imgScale = 0.5
+
 export default {
   components: {
     //
@@ -190,6 +192,8 @@ export default {
 
       timezones,
       timezonePaused: false,
+
+      imgScale,
 
       dbReady: false,
 
@@ -390,14 +394,27 @@ export default {
       // onDragmove({ evt, sId }) {
       // console.log('onDragmove', evt)
 
-      const { x, y } = evt.target.attrs
+      // const { x, y } = evt.target.attrs
+      const { x: ix, y: iy } = evt.target.attrs
+      const { width: iw, height: ih } = evt.target.attrs.image
 
-      // console.log({ sId, x, y })
+      // console.log({ sId, ix, iy })
+
+      let x = ix
+      let y = iy
+      const scale = imgScale
+
+      if (x < 0) x = 0
+      if (x + iw * scale > width) x = width - iw * scale
+      if (y < 0) y = 0
+      if (y + ih * scale > height) y = height - ih * scale
 
       const sea = {
         x,
         y,
       }
+
+      console.log(sea)
 
       this.updateSea({ sId, sea })
     }, 500),
