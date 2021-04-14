@@ -71,7 +71,7 @@
 
         <div class="absolute left-0 bottom-0 w-full h-0 flex justify-center">
           <div
-            class="mt-6 w-12 h-12 bg-gray-900 cursor-pointer text-white shadow rounded-full flex justify-center items-center"
+            class="mt-6 w-12 h-12 bg-gray-600 cursor-pointer text-white shadow rounded flex justify-center items-center"
             @click="capture"
           >
             <fa-icon icon="camera" size="lg" />
