@@ -8,6 +8,9 @@
           width,
           height,
         }"
+        :style="{
+          cursor: dragging ? 'grabbing' : 'grab',
+        }"
       >
         <!-- @mousemove="onMousemove" -->
         <!--
@@ -32,6 +35,7 @@
             }"
             :src="require(`~/assets/sea-imgs/${sea.sId}.png`)"
             @click="onClick({ sId: sea.sId, evt: $event })"
+            @dragstart="onDragstart({ sId: sea.sId, evt: $event })"
             @dragmove="onDragmove({ sId: sea.sId, evt: $event })"
             @dragend="onDragend({ sId: sea.sId, evt: $event })"
           />
@@ -143,6 +147,8 @@ export default {
       timezonePaused: false,
 
       dbReady: false,
+
+      dragging: false,
 
       uId: '',
 
@@ -329,6 +335,11 @@ export default {
       */
       // TODO
     },
+    onDragstart({ evt, sId }) {
+      console.log('onDragstart', evt)
+
+      this.dragging = true
+    },
     onDragmove: _throttle(function({ evt, sId }) {
       // onDragmove({ evt, sId }) {
       // console.log('onDragmove', evt)
@@ -347,6 +358,7 @@ export default {
     // },
     onDragend({ evt, sId }) {
       console.log('onDragend', evt)
+      this.dragging = false
     },
     async updateSea({ sId, sea }) {
       const dbSeasRef = rtdb.ref(`/seas`)

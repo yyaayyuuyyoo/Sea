@@ -6,6 +6,7 @@
       image: image,
     }"
     @click="$emit('click', $event)"
+    @dragstart="$emit('dragstart', $event)"
     @dragmove="$emit('dragmove', $event)"
     @dragend="$emit('dragend', $event)"
   />
