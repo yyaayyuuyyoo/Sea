@@ -252,12 +252,12 @@ export default {
 
     for (const sId in _range(22)) {
       let sea = this.dbSeas[sId]
-      if (!sea) sea = {}
-
-      if (!sea.x) sea.x = (width / 2) * Math.random()
-      if (!sea.y) sea.y = (width / 2) * Math.random()
-
-      await this.updateSea({ sId, sea })
+      if (!sea || !sea.x || !sea.y) {
+        sea = {}
+        sea.x = (width / 2) * Math.random()
+        sea.y = (width / 2) * Math.random()
+        await this.updateSea({ sId, sea })
+      }
     }
 
     this.dbReady = true
@@ -407,6 +407,8 @@ export default {
       this.dragging = false
     },
     async updateSea({ sId, sea }) {
+      // console.log('updateSea', sId)
+
       const dbSeasRef = rtdb.ref(`/seas`)
       const dbSeaRef = dbSeasRef.child(sId)
 
