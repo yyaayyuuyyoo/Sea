@@ -3,7 +3,7 @@
     <div
       class="absolute left-0 top-0 w-full h-full flex justify-center items-center pointer-events-none"
     >
-      <div class="relative pointer-events-auto">
+      <div class="relative pointer-events-auto border-2 border-white">
         <v-stage
           ref="stage"
           :config="{
