@@ -25,10 +25,11 @@
           :key="`sea${sea.sId}`"
           :config="{
             ...sea,
-            scaleX: 0.3,
-            scaleY: 0.3,
+            scaleX: 0.5,
+            scaleY: 0.5,
             draggable: true,
           }"
+          @click="onClick({ sId: sea.sId, evt: $event })"
           @dragmove="onDragmove({ sId: sea.sId, evt: $event })"
           @dragend="onDragend({ sId: sea.sId, evt: $event })"
         >
@@ -314,6 +315,19 @@ export default {
       })
     }, 200),
     */
+    onClick({ evt, sId }) {
+      // onClick({ evt, sId }) {
+      console.log('onClick', evt)
+      /* 
+      const sea = {
+        x: evt.evt.layerX,
+        y: evt.evt.layerY,
+      }
+
+      this.updateSea({ sId, sea })
+      */
+      // TODO
+    },
     onDragmove: _throttle(function({ evt, sId }) {
       // onDragmove({ evt, sId }) {
       // console.log('onDragmove', evt)
@@ -340,21 +354,6 @@ export default {
       sea.uA = ServerTIMESTAMP
 
       await dbSeaRef.update(sea)
-    },
-    handleDragstart(e) {
-      // save drag element:
-      this.dragItemId = e.target.id()
-      // move current element to the top:
-      const item = this.list.find(i => i.id === this.dragItemId)
-      const index = this.list.indexOf(item)
-      this.list.splice(index, 1)
-      this.list.push(item)
-
-      // TODO
-    },
-    handleDragend(e) {
-      this.dragItemId = null
-      // TODO
     },
   },
 }
