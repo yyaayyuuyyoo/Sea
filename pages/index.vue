@@ -382,7 +382,7 @@ export default {
       // TODO
     },
     onDragstart({ evt, sId }) {
-      console.log('onDragstart', evt)
+      // console.log('onDragstart', evt)
 
       this.dragging = true
     },
@@ -392,7 +392,7 @@ export default {
 
       const { x, y } = evt.target.attrs
 
-      console.log({ sId, x, y })
+      // console.log({ sId, x, y })
 
       const sea = {
         x,
@@ -403,7 +403,7 @@ export default {
     }, 500),
     // },
     onDragend({ evt, sId }) {
-      console.log('onDragend', evt)
+      // console.log('onDragend', evt)
       this.dragging = false
     },
     async updateSea({ sId, sea }) {
