@@ -256,7 +256,7 @@ export default {
 
     for (const sId in _range(22)) {
       let sea = this.dbSeas[sId]
-      if (!sea || !sea.x || !sea.y) {
+      if (!sea || isNaN(sea.x) || isNaN(sea.y)) {
         sea = {}
         sea.x = (width / 2) * Math.random()
         sea.y = (width / 2) * Math.random()
