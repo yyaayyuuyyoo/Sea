@@ -429,7 +429,7 @@ export default {
       console.log({ stage })
 
       const dataURL = stage.toDataURL()
-      downloadURI(dataURL, 'stage.png')
+      downloadURI(dataURL, 'sea.png')
     },
   },
 }
