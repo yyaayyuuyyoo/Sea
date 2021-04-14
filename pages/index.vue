@@ -1,9 +1,9 @@
 <template>
   <div class="index relative">
     <div
-      class="absolute left-0 top-0 w-full h-full flex justify-center items-center"
+      class="absolute left-0 top-0 w-full h-full flex justify-center items-center pointer-events-none"
     >
-      <div class="relative">
+      <div class="relative pointer-events-auto">
         <v-stage
           ref="stage"
           :config="{
@@ -81,9 +81,33 @@
     </div>
 
     <div class="mt-8">
-      <h2 class="text-3xl font-bold">What did you sea?</h2>
+      <div>
+        <h2 class="text-3xl font-bold inline-block">
+          What did you sea?
+        </h2>
+        <div
+          class="relative inline-block z-20"
+          @mouseenter="showInfo = true"
+          @mouseleave="showInfo = false"
+        >
+          <fa-icon class="ml-2 cursor-pointer" icon="info-circle" />
+          <div v-show="showInfo" class="absolute right-0 top-0 w-0 h-0">
+            <div
+              class="absolute top-0 right-0 -mt-6 w-screen max-w-md bg-white p-4 border"
+            >
+              How would you compute the time it takes to type the average word
+              the one that accounts for the statistical properties of the
+              language (e.g. that "the" is the most common word, that "cqq"
+              almost never occurs etc.)? Assume that you have access to a huge
+              corpus of English texts, and that you are able to compile a lists
+              of all the words that you see, including their frequency.
+              frequency. Explain your answer in 2 - 3 sentences.
+            </div>
+          </div>
+        </div>
+      </div>
       <div
-        class="w-full py-2"
+        class="w-full py-2 z-0"
         :style="{ maxWidth: `${width}px` }"
         @mouseenter="timezonePaused = true"
         @mouseleave="timezonePaused = false"
@@ -169,6 +193,7 @@ export default {
 
       dbReady: false,
 
+      showInfo: false,
       dragging: false,
 
       uId: '',
