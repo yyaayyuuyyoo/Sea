@@ -11,13 +11,12 @@ import 'firebase/functions'
 
 // Initialize Firebase
 const config = {
-  apiKey: 'AIzaSyBaQOlmwIGfeLYZ_soeOMjfQH39NcduekU',
-  authDomain: 'online-sea.firebaseapp.com',
-  projectId: 'online-sea',
-  storageBucket: 'online-sea.appspot.com',
-  messagingSenderId: '421897507364',
-  appId: '1:421897507364:web:29c174c5d16fdd0dc9beb1',
-  measurementId: 'G-3RK8CRLVBG',
+  apiKey: "AIzaSyA7roaApigOth3IsEm59oZBQuMCVsdjq3U",
+  authDomain: "sea-you-sea-me.firebaseapp.com",
+  projectId: "sea-you-sea-me",
+  storageBucket: "sea-you-sea-me.appspot.com",
+  messagingSenderId: "8301580419",
+  appId: "1:8301580419:web:e66b0446a70e1202ee8bb6"
 }
 
 export const FirebaseApp = Firebase.initializeApp(config)
