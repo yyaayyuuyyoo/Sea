@@ -54,10 +54,11 @@ export default {
    */
   plugins: [
     // '@/plugins/_',
-    '@/plugins/vue-rx',
+    // '@/plugins/vue-rx',
     '@/plugins/fa-icon',
     '@/plugins/vuefire',
-    '@/plugins/twemoji',
+    // '@/plugins/twemoji',
+    '@/plugins/konvajs',
   ],
   /*
    ** Auto import components

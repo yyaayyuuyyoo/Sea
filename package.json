@@ -21,10 +21,12 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/style-resources": "^1.0.0",
     "firebase": "^8.1.1",
+    "konva": "^7.2.5",
     "lodash": "^4.17.19",
     "nuxt": "^2.14.0",
     "rxjs": "^6.5.5",
     "twemoji": "^13.0.1",
+    "vue-konva": "^2.1.7",
     "vue-rx": "^6.2.0",
     "vuefire": "^2.2.4"
   },
