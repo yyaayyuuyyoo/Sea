@@ -123,7 +123,7 @@
             </span>
 
             <span>
-              {{ `${(now.getUTCHours() + offset) % 24}`.padStart(2, '0') }}
+              {{ `${(now.getUTCHours() + 24 + offset) % 24}`.padStart(2, '0') }}
             </span>
             <span>:</span>
             <span>
