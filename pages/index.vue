@@ -69,7 +69,7 @@
         -->
         </v-stage>
 
-        <div class="absolute right-0 bottom-0 -mb-6">
+        <div class="absolute right-0 bottom-0 -mb-6 mr-2 text-sm">
           <span v-if="dbLastUpdatedBy">
             Last modified by
 
