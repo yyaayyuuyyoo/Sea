@@ -69,7 +69,10 @@
         -->
         </v-stage>
 
-        <div class="absolute right-0 bottom-0 -mb-6 mr-2 text-sm">
+        <div
+          class="absolute right-0 bottom-0 -mb-6 mr-2 text-sm italic font-light"
+          style="font-family: 'Roboto Mono';"
+        >
           <span v-if="dbLastUpdatedBy">
             Last modified by
 
