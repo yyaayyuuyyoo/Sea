@@ -82,8 +82,11 @@
 
     <div class="mt-8">
       <div>
-        <h2 class="text-3xl font-bold inline-block">
-          What did you sea?
+        <h2
+          class="text-3xl inline-block"
+          style="font-family: 'Playfair Display', serif "
+        >
+          Sea Together
         </h2>
         <div
           class="relative inline-block z-20"
@@ -93,7 +96,7 @@
           <fa-icon class="ml-2 cursor-pointer" icon="info-circle" />
           <div v-show="showInfo" class="absolute right-0 top-0 w-0 h-0">
             <div
-              class="absolute top-0 right-0 -mt-6 w-screen max-w-md bg-white p-4 border text-justify"
+              class="info absolute top-0 right-0 -mt-6 w-screen max-w-md bg-white p-4 border text-justify"
             >
               How would you compute the time it takes to type the average word
               the one that accounts for the statistical properties of the
@@ -119,9 +122,11 @@
           <div
             v-for="(offset, city) in timezones"
             :key="city"
-            class="inline-block mx-2"
+            class="mx-2 inline-flex justify-start items-center text-sm"
+            style="cursor: wait; font-family: 'Roboto Mono';"
           >
-            <span>
+            🕙
+            <span class="mx-2">
               {{ city }}
             </span>
 
@@ -481,5 +486,14 @@ export default {
 .start {
   @apply bg-orange-400 text-white font-bold py-2 px-6 rounded cursor-pointer my-8;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-weight: 500;
+}
+
+.info {
+  font-size: 12px;
+  font-family: 'Nunito';
 }
 </style>

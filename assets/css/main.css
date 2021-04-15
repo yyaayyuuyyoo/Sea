@@ -2,9 +2,11 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:100,300,400,700&display=fallback&subset=chinese-traditional');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,700,700i&display=swap&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
 body {
-  font-family: 'Nunito', Roboto, 'Noto Sans TC', 'Source Sans Pro',
+  font-family: 'Playfair Display', serif, 'Nunito', Roboto, 'Noto Sans TC', 'Source Sans Pro',
     -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
     sans-serif;
   font-size: 16px;
