@@ -70,15 +70,15 @@
         </v-stage>
 
         <div
-          class="absolute right-0 bottom-0 -mb-6 mr-2 text-sm italic font-light"
+          class="absolute right-0 bottom-0 -mb-6 mr-2 text-xs font-light"
           style="font-family: 'Roboto Mono';"
         >
           <span v-if="dbLastUpdatedBy">
-            Last modified by
+            last modified by
 
             <span class="font-bold">
-              <span v-if="dbLastUpdatedBy.uId === uId"> You </span>
-              <span v-else> Someone </span>
+              <span v-if="dbLastUpdatedBy.uId === uId"> you </span>
+              <span v-else> someone </span>
             </span>
 
             at
