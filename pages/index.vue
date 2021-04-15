@@ -96,18 +96,13 @@
           <fa-icon class="ml-2 cursor-pointer" icon="info-circle" />
           <div v-show="showInfo" class="absolute right-0 top-0 w-0 h-0">
             <div
-              class="info absolute top-0 right-0 -mt-6 w-screen max-w-md bg-white p-4 border text-justify"
+              class="info absolute top-0 right-0 -mt-6 w-screen max-w-md bg-white p-5 border text-justify"
             >
-              How would you compute the time it takes to type the average word
-              the one that accounts for the statistical properties of the
-              language (e.g. that "the" is the most common word, that "cqq"
-              almost never occurs etc.)? Assume
-
+              A synchronous canvas with draggable sea photographs (East Coast,
+              Taiwan). Making a seascape with some people out there.
               <br />
-              that you have access to a huge corpus of English texts, and that
-              you are able to compile a lists of all the words that you see,
-              including their frequency. frequency. Explain your answer in 2 - 3
-              sentences.
+              <br />
+              A project by Ya-Yu Tseng @ ViCCA Production 2021
             </div>
           </div>
         </div>
@@ -493,7 +488,7 @@ h2 {
 }
 
 .info {
-  font-size: 12px;
+  font-size: 14px;
   font-family: 'Nunito';
 }
 </style>
