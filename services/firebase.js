@@ -18,7 +18,7 @@ const config = {
   storageBucket: 'sea-you-sea-me.appspot.com',
   messagingSenderId: '8301580419',
   appId: '1:8301580419:web:e66b0446a70e1202ee8bb6',
-  measurementId: 'G-30SGW0V5GV',
+  measurementId: 'G-XGBKWFJHKL',
 }
 
 export const FirebaseApp = Firebase.initializeApp(config)
