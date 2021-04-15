@@ -158,16 +158,16 @@ const height = 500
 
 const timezones = {
   Nevada: -8,
-  Chihuahua: -7,
-  Missouri: -6,
-  'West Virginia': -5,
   'Mato Grosso': -4,
+  Chihuahua: -7,
+  Belarus: +2,
+  Missouri: -6,
   'Minas Gerais': -3,
+  Laos: +7,
   'République du Mali': -0,
   Serbia: +1,
-  Belarus: +2,
+  'West Virginia': -5,
   Tajikistan: +5,
-  Laos: +7,
   Nantou: +8,
 }
 
