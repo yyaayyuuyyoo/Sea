@@ -69,6 +69,26 @@
         -->
         </v-stage>
 
+        <div class="absolute right-0 bottom-0 -mb-6">
+          <span v-if="dbLastUpdatedBy">
+            Last modified by
+
+            <span class="font-bold">
+              <span v-if="dbLastUpdatedBy.uId === uId"> You </span>
+              <span v-else> Someone </span>
+            </span>
+
+            at
+
+            <span class="italic">
+              <!-- EXAMPLE: "4/16/2021, 12:34:41 AM" -->
+              <!-- {{ new Date(dbLastUpdatedBy.uA).toLocaleString() }} -->
+              <!-- EXAMPLE: "12:34:50 AM" -->
+              {{ new Date(dbLastUpdatedBy.uA).toLocaleTimeString() }}
+            </span>
+          </span>
+        </div>
+
         <div class="absolute left-0 bottom-0 w-full h-0 flex justify-center">
           <div
             class="mt-6 w-12 h-12 bg-gray-600 cursor-pointer text-white shadow rounded flex justify-center items-center"
@@ -183,7 +203,6 @@ export default {
     MarqueeText,
     VVImage,
   },
-
   data() {
     return {
       width,
@@ -206,6 +225,8 @@ export default {
 
       showInfo: false,
       dragging: false,
+
+      dbLastUpdatedBy: null,
 
       uId: '',
 
@@ -260,6 +281,12 @@ export default {
         console.log('dbSeasRef ready', 'dbSeasRef')
       })
       .catch(() => console.warn('dbSeasRef error'))
+
+    await this.$rtdbBind('dbLastUpdatedBy', rtdb.ref('lastUpdatedBy'))
+      .then(() => {
+        console.log('dbLastUpdatedBy ready')
+      })
+      .catch(() => console.warn('dbLastUpdatedBy error'))
 
     for (const sId in _range(22)) {
       let sea = this.dbSeas[sId]
@@ -437,6 +464,10 @@ export default {
       sea.uA = ServerTIMESTAMP
 
       await dbSeaRef.update(sea)
+      await rtdb.ref('lastUpdatedBy').set({
+        uId: this.uId,
+        uA: ServerTIMESTAMP,
+      })
     },
     capture() {
       // function from https://stackoverflow.com/a/15832662/512042
