@@ -117,7 +117,7 @@
           <div
             v-for="(offset, city) in timezones"
             :key="city"
-            class="mx-2 inline-flex justify-start items-center text-sm"
+            class="mx-2 inline-flex justify-start items-center text-sm italic font-light"
             style="cursor: wait; font-family: 'Roboto Mono';"
           >
             🕙
