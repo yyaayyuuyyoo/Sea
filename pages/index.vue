@@ -99,7 +99,11 @@
               class="info absolute top-0 right-0 -mt-6 w-screen max-w-md bg-white p-5 border text-justify"
             >
               A synchronous canvas with draggable sea photographs (East Coast,
-              Taiwan). Making a seascape with some people out there.
+              Taiwan). The marquee shows the current time of some places that
+              are not near by the sea.
+              <br />
+              <br />
+              Making a seascape with some people out there.
               <br />
               <br />
               A project by Ya-Yu Tseng @ ViCCA Production 2021
