@@ -1,5 +1,7 @@
-const title = 'title' || process.env.npm_package_name
-const desc = 'desc' || process.env.npm_package_description
+const title = 'Sea Together' || process.env.npm_package_name
+const desc =
+  'A synchronous canvas with draggable sea photographs.' ||
+  process.env.npm_package_description
 
 export default {
   /*

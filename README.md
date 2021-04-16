@@ -1,6 +1,6 @@
-# ooookai.github.io
+# sea-you-sea-me.web.app
 
-> ooookai website
+> Sea Together
 
 ## Build Setup
 
